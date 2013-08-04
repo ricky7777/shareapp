@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">分享快樂</string>
+    <string name="app_share_title">分享快樂</string>
+    <string name="bookmark_add_success">加入書籤成功!</string>
+    <string name="bookmark_remove_success">已移除此書籤</string>
+    <string name="bookmark_delete_title">刪除書籤</string>
+    <string name="bookmark_delete_text">你確定要刪掉此書籤?</string>
+    <string name="shareapp_success">分享快樂成功 ^^</string>
+    <string name="shareapprank_tabapp_text">應用程式</string>
+    <string name="shareapprank_tabgame_text">遊戲</string>
+    
+    <!-- Tab text -->
+    <string name="tab_text_myapp">我的程式</string>
+    <string name="tab_text_sharerank">分享排行榜</string>
+    <string name="tab_text_bookmark">書籤</string>
+    
+    <string name="alert_dialog_loading">載入資料中......請稍後</string>
+    
+    <!-- share time text -->
+    <string name="sharerank_time_text1">分享</string>
+    <string name="sharerank_time_text2">次</string>
+    
+    <string name="shareapp_main_body">Hello:\n我找到一個很有趣的程式-</string>
+    <string name="shareapp_main_body2">特別分享給你 : )</string>
+    
+    <string name="shareapp_main_title">分享快樂 - </string>
+    
+          	<!-- rating -->
+    <string name="rating_msg">您是否喜歡分享快樂(如果是,請給我個評價,我會很感謝你的)</string>
+    <string name="rating_yes">好啊</string>
+    <string name="rating_no">不了</string>
+    
+    <string name="im_text">可用空間:</string>
+</resources>

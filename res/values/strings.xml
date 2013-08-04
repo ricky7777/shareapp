@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShareAPP</string>
+    <string name="app_share_title">ShareApp</string>
+    <string name="ad_id">a14d7b9e6f2c65b</string>
+    <string name="bookmark_add_success">Add bookmark success!</string>
+    <string name="bookmark_remove_success">Remove bookmark success</string>
+    <string name="bookmark_delete_title">Delete Bookmark</string>
+    <string name="bookmark_delete_text">Are you sure delete this bookmark?</string>
+    <string name="shareapp_success">ShareApp Success</string>
+    <string name="shareapprank_tabapp_text">Application</string>
+    <string name="shareapprank_tabgame_text">Game</string>
+    
+    <!-- Tab text -->
+    <string name="tab_text_myapp">MyApp</string>
+    <string name="tab_text_sharerank">ShareRank</string>
+    <string name="tab_text_bookmark">Bookmark</string>
+    
+    <string name="alert_dialog_loading">Loading</string>
+    
+    <!-- share time text -->
+    <string name="sharerank_time_text1">Share</string>
+    <string name="sharerank_time_text2">Time</string>
+    
+    <string name="shareapp_main_body">Hi,\nI am find interesting app - </string>
+    <string name="shareapp_main_body2">Special for you. : )</string>
+    
+    <string name="shareapp_main_title">A funny app - </string>
+    
+    <!-- menu text -->
+    <string name="shareapp_menu_sharetext">ShareText</string>
+    
+    <!-- sharetext,desc -->
+    <string name="shareapp_sharetext_title">Please input share text</string>
+    <string name="shareapp_sharetext_subject">This is a secret barcode</string>
+    
+      	<!-- rating -->
+    <string name="rating_msg">Did you like Shareapp(if so,we would appreciate you rating it on the marker)</string>
+    <string name="rating_yes">Yes</string>
+    <string name="rating_no">No</string>
+    
+    <!-- internal memory's text -->
+    <string name="im_text">Available Memory:</string>
+</resources>

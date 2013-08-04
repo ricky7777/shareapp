@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shareapp_option_text">
+    	<item>分享快樂</item>
+    	<item>顯示 QR Code</item>
+    	<item>搜尋相關資訊</item>
+    	<item>加入書籤</item>
+    	<item>啟動程式</item>
+    	<item>移除程式</item>
+    </string-array>
+    
+    <string-array name="shareapp_bookmark_option_text">
+    	<item>分享快樂</item>
+    	<item>顯示 QR Code</item>
+    	<item>搜尋相關資訊</item>
+    </string-array>
+</resources>

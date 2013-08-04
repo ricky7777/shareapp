@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<drawable name="bg_black">#ff000000</drawable>
+<drawable name="bg_blue">#ff6699cc</drawable>
+<drawable name="bg_red">#ffff0000</drawable>
+<drawable name="bg_white">#ffffffff</drawable>
+<drawable name="bg_yellow">#ffffff33</drawable>
+<drawable name="bg_white_translucent">#80ffffff</drawable>
+<drawable name="bg_grey">#ffdcdcdc</drawable>
+<drawable name="bg_grey2">#6683827a</drawable>
+
+ <drawable name="translucent_background">#e0000000</drawable>
+</resources>

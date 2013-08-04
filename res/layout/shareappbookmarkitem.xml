@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+>
+	<ImageView
+		android:id="@+id/IV_saoption_icon"
+		android:layout_width="48dp"
+		android:layout_height="48dp" 
+		android:layout_margin="7dp"
+	/>
+	<TextView
+		android:id="@+id/TV_saoption_text"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="7dp"
+		android:textColor="@drawable/bg_black"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_toRightOf="@+id/IV_saoption_icon"
+	/>
+</RelativeLayout>

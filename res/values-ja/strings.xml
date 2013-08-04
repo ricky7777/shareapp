@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">シェアアプリ</string>
+    <string name="app_share_title">シェアアプリ</string>
+    <string name="bookmark_add_success">ブックマークしました!</string>
+    <string name="bookmark_remove_success">ブックマークを削除しました</string>
+    <string name="bookmark_delete_title">ブックマークを削除する</string>
+    <string name="bookmark_delete_text">ブックマークを削除しますか?</string>
+    <string name="shareapp_success">アプリシェアしました</string>
+    <string name="shareapprank_tabapp_text">アプリケーション</string>
+    <string name="shareapprank_tabgame_text">ゲーム</string>
+    
+    <!-- Tab text -->
+    <string name="tab_text_myapp">私のアプリ</string>
+    <string name="tab_text_sharerank">シェアランキング</string>
+    <string name="tab_text_bookmark">ブックマーク</string>
+    
+    <string name="alert_dialog_loading">ロード</string>
+    
+    <!-- share time text -->
+    <string name="sharerank_time_text1">シェア</string>
+    <string name="sharerank_time_text2">タイム</string>
+    
+    <string name="shareapp_main_body">Hi,\n私が面白いアプリを見つけました - </string>
+    <string name="shareapp_main_body2">Special for you. : )</string>
+    
+    <string name="shareapp_main_title">面白いアプリ - </string>
+    
+    <!-- menu text -->
+    <string name="shareapp_menu_sharetext">シェアテキスト</string>
+    
+    <!-- sharetext,desc -->
+    <string name="shareapp_sharetext_title">言葉を入力してください</string>
+    <string name="shareapp_sharetext_subject">これは、秘密バーコードです</string>
+    
+      	<!-- rating -->
+    <string name="rating_msg">シェアアプリが好きですか？もしそうなら、マーケットで評価してください</string>
+    <string name="rating_yes">Yes</string>
+    <string name="rating_no">No</string>
+    
+    <!-- internal memory's text -->
+    <string name="im_text">利用可能なメモリ</string>
+</resources>

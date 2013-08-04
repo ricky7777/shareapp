@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/RL_bookmark"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="@drawable/bg_black"
+>
+	<LinearLayout
+		android:id="@+id/LL_bookmark"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:gravity="center_horizontal"
+		android:layout_marginTop="10px"
+		android:layout_marginBottom="10px"
+	>
+	<ImageView
+		android:id="@+id/IV_android"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@anim/anim_android"
+	/>
+	<ImageView
+		android:id="@+id/IV_bookmark"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom"
+		android:layout_marginBottom="10px"
+		android:src="@drawable/icon_bookmark"
+	/>
+	</LinearLayout>
+<ListView 
+		android:id="@+id/LV_bookmarkList"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/LL_bookmark"
+		android:cacheColorHint="@null" 
+		android:drawSelectorOnTop="false"
+		android:dividerHeight="2px"
+		android:headerDividersEnabled="true"
+		android:footerDividersEnabled="true"
+		android:fadingEdge="none"
+		android:divider="@drawable/bg_white"
+		android:layout_centerHorizontal="true"
+		android:background="@null"
+		/>
+
+</RelativeLayout>

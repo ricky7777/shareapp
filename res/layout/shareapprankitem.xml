@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+>
+	<ImageView
+		android:id="@+id/IV_sharapprank_icon"
+		android:layout_width="48dp"
+		android:layout_height="48dp" 
+		android:layout_margin="7dp"
+	/>
+	 <RatingBar 
+	    android:id="@+id/RB_shareapprank_ratingbar"
+	    style="?android:attr/ratingBarStyleSmall"
+	    android:layout_marginRight="10dip"
+	    android:layout_marginTop="10dip"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	  />
+	<TextView
+		android:id="@+id/TV_shareapprank_name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="7dp"
+		android:layout_marginRight="7dp"
+		android:layout_marginTop="4dp"
+		android:layout_marginBottom="2dp"
+		android:textColor="@drawable/bg_black"
+		android:textStyle="bold"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_toRightOf="@+id/IV_sharapprank_icon"
+		android:layout_toLeftOf="@+id/RB_shareapprank_ratingbar"
+	/>
+	<TextView
+		android:id="@+id/TV_shareapprank_creator"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="7dp"
+		android:textColor="@drawable/bg_black"
+		android:layout_toRightOf="@+id/IV_sharapprank_icon"
+		android:layout_below="@+id/TV_shareapprank_name"
+	 	android:textAppearance="?android:attr/textAppearanceSmall"
+	/>
+	  <TextView 
+	  	android:id="@+id/TV_shareapprank_sharetime"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/RB_shareapprank_ratingbar"
+		android:layout_alignParentRight="true"
+		android:paddingRight="1dp"
+		android:textColor="@drawable/bg_grey"
+		android:textStyle="italic"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+	  />
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shareapp_option_text">
+    	<item>Share App</item>
+    	<item>Show QR Code</item>
+    	<item>Search to market</item>
+    	<item>Add to Bookmark</item>
+    	<item>Launch App</item>
+    	<item>Uninstall App</item>
+    </string-array>
+    
+    <string-array name="shareapp_bookmark_option_text">
+    	<item>Share App</item>
+    	<item>Show QR Code</item>
+    	<item>Search to market</item>
+    </string-array>
+</resources>

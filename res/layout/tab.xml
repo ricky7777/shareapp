@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="fill_parent"  
+    android:layout_height="fill_parent">
+     <com.google.ads.AdView
+        android:id="@+id/ad"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        ads:adUnitId="@string/ad_id"
+        ads:adSize="BANNER"
+        ads:loadAdOnCreate="true"
+        />  
+    <TabHost  
+        android:id="@android:id/tabhost"  
+        android:layout_width="fill_parent"  
+        android:layout_height="fill_parent"
+		>  
+        <FrameLayout  
+            android:id="@android:id/tabcontent"  
+            android:layout_width="fill_parent"  
+            android:layout_height="fill_parent"
+            android:paddingBottom="114dp"
+            android:paddingTop="7dp"
+            >  
+        </FrameLayout>  
+        <RelativeLayout  
+            android:layout_width="fill_parent"  
+            android:layout_height="fill_parent"
+            >  
+            <TabWidget  
+                android:id="@android:id/tabs"  
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="48dp"
+                android:layout_width="fill_parent"  
+                android:layout_height="wrap_content"
+                />  
+        </RelativeLayout>  
+    </TabHost>
+</RelativeLayout>  

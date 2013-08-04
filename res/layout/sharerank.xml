@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/RL_shareapp"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:background="@drawable/bg_white"
+>
+	<com.rickystyle.shareapp.free.widget.ToggleButton
+		android:id="@+id/IB_application"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:background="@drawable/shareapprank_app_btn"
+	/>
+	<com.rickystyle.shareapp.free.widget.ToggleButton
+		android:id="@+id/IB_game"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/IB_application"
+		android:background="@drawable/shareapprank_game_btn"
+		android:layout_marginBottom="12dp"
+		/>
+
+	<ListView 
+		android:id="@+id/LV_appList"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@+id/IB_game"
+		android:cacheColorHint="@null" 
+		android:drawSelectorOnTop="false"
+		android:dividerHeight="1dp"
+		android:headerDividersEnabled="true"
+		android:footerDividersEnabled="true"
+		android:fadingEdge="none"
+		android:divider="@drawable/bg_black"
+		android:layout_centerHorizontal="true"
+		android:background="@null"
+		android:layoutAnimation="@anim/layout_bottom_to_top_slide"
+		android:layout_marginBottom="12dp"
+		/>
+
+</RelativeLayout>
