@@ -39,7 +39,6 @@ import com.rickystyle.shareapp.free.R;
 import com.rickystyle.shareapp.free.consts.ShareAppConsts;
 import com.rickystyle.shareapp.free.service.ShareAppService;
 import com.rickystyle.shareapp.free.tool.BarcodeManager;
-import com.rickystyle.shareapp.free.tool.DebugTool;
 import com.rickystyle.shareapp.free.tool.FileComparator;
 import com.rickystyle.shareapp.free.tool.IntentTool;
 import com.rickystyle.shareapp.free.tool.ShareAppTool;
@@ -132,7 +131,6 @@ public class ShareAppActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DebugTool.printVLog("resume");
         updateInternalMemory();
         loadApps();
         appsAdapter.notifyDataSetChanged();
@@ -192,7 +190,6 @@ public class ShareAppActivity extends BaseActivity {
                 ApplicationInfo info = mApps.get(currentPosition);
                 String packageName = info.packageName;
                 String labelName = info.loadLabel(mPm) + "";
-                DebugTool.printVLog("OPTION_SHAREAPP:" + which);
                 switch (which) {
                 case ShareAppConsts.OPTION_SHAREAPP:
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_SHAREAPP,
@@ -213,7 +210,7 @@ public class ShareAppActivity extends BaseActivity {
                 case ShareAppConsts.OPTION_ADDTOBOOKMARK:
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_ADDBOOKMARK,
                             ShareAppConsts.ANALYTICS_VALUE_YES);
-                    BarcodeManager.getInstance().addAppBookmark(info, ShareAppActivity.this, mPm);
+                    // BarcodeManager.getInstance().addAppBookmark(info, ShareAppActivity.this, mPm);
                     Toast.makeText(getApplicationContext(), R.string.bookmark_add_success, Toast.LENGTH_SHORT).show();
                     break;
                 case ShareAppConsts.OPTION_LAUNCHAPP:
@@ -234,7 +231,6 @@ public class ShareAppActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        DebugTool.printVLog("share success resultCode:" + resultCode + ",intent:" + data);
         if (resultCode == ShareAppConsts.ACT_RESULT_CODE_SHARE_SUCCESS) {
             ApplicationInfo info = mApps.get(currentPosition);
             Intent intent = new Intent(ShareAppActivity.this, ShareAppService.class);

@@ -30,7 +30,6 @@ import com.rickystyle.shareapp.free.animation.Rotate3dAnimation;
 import com.rickystyle.shareapp.free.bean.BookmarkInfo;
 import com.rickystyle.shareapp.free.consts.ShareAppConsts;
 import com.rickystyle.shareapp.free.tool.BarcodeManager;
-import com.rickystyle.shareapp.free.tool.DebugTool;
 import com.rickystyle.shareapp.free.tool.IntentTool;
 import com.rickystyle.shareapp.free.tool.PreferenceUtil;
 import com.rickystyle.shareapp.free.tool.ShareAppTool;
@@ -132,7 +131,6 @@ public class BookmarkActivity extends BaseActivity {
                 HashMap<String, Object> info = (HashMap<String, Object>) bookmarkData.get(currentPosition);
                 String packageName = info.get(ShareAppConsts.KEY_BOOKMARK_PACKAGENAME) + "";
                 String labelName = info.get(ShareAppConsts.KEY_BOOKMARK_DESC) + "";
-                DebugTool.printVLog("OPTION_SHAREAPP:" + which);
                 switch (which) {
                 case ShareAppConsts.OPTION_BOOKMARK_SHAREAPP:
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_BOOKMARK, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_SHAREAPP,

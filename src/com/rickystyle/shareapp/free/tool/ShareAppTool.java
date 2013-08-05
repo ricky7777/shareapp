@@ -36,7 +36,6 @@ public class ShareAppTool {
     public static void shareapp(Resources res, Activity act, String packageName, String labelName) {
         Uri uri = BarcodeManager.getInstance().getBarcodeURI(packageName);
         String appMarketURL = BarcodeManager.getInstance().getBarcodeURLInHttp(packageName);
-        DebugTool.printVLog("packageName:" + packageName + ",uri:" + uri);
         Intent intent = new Intent(Intent.ACTION_SEND);
         String textBody = res.getString(R.string.shareapp_main_body) + " " + labelName + "\n" + res.getString(R.string.shareapp_main_body2) + "\n"
                 + appMarketURL;

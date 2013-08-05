@@ -29,7 +29,6 @@ import com.rickystyle.shareapp.free.R;
 import com.rickystyle.shareapp.free.adapter.ShareAppAdapter;
 import com.rickystyle.shareapp.free.consts.ShareAppConsts;
 import com.rickystyle.shareapp.free.net.NetManager;
-import com.rickystyle.shareapp.free.tool.DebugTool;
 import com.rickystyle.shareapp.free.tool.StringUtils;
 import com.rickystyle.shareapp.free.widget.ToggleButton;
 
@@ -190,7 +189,6 @@ abstract public class BaseRankActivity extends BaseActivity {
                 ratingBar.setRating(3);
             }
 
-            DebugTool.printVLog("position:" + position + ",count:" + getCount());
             int count = getCount();
             if (position == count - 1 && count % 10 == 0) {
                 selectPosition = position - 4;

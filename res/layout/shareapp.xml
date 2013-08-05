@@ -1,37 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout 
 xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
 android:id="@+id/RL_shareapp"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
 android:background="@drawable/bg_black"
 >
 
-<GridView 
-    android:id="@+id/GV_shareapp"
-    android:layout_width="fill_parent" 
-    android:layout_height="fill_parent"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:verticalSpacing="15dp"
-    android:horizontalSpacing="10dp"
-    android:numColumns="auto_fit"
-    android:columnWidth="60dp"
-    android:stretchMode="columnWidth"
-    android:scrollingCache="true"
-    android:scrollbarAlwaysDrawVerticalTrack="true"  
-    />
-
-<TextView
-    android:id="@+id/TV_internal_memory"
-    android:layout_width="wrap_content" 
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentBottom="true"
-    android:layout_marginRight="10px"
-    android:layout_marginBottom="30px"
-    android:background="@drawable/bg_grey2"
-    android:textColor="@drawable/bg_yellow"
-    android:padding="5px"
-    />
+        <com.google.ads.AdView
+            android:id="@+id/ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            ads:adUnitId="@string/ad_id"
+            ads:adSize="SMART_BANNER"
+            ads:loadAdOnCreate="true"
+        /> 
+        
+        <GridView 
+            android:id="@+id/GV_shareapp"
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:verticalSpacing="15dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:columnWidth="60dp"
+            android:stretchMode="columnWidth"
+            android:scrollingCache="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:layout_above="@+id/ad"  
+            />
+        
+        <TextView
+            android:id="@+id/TV_internal_memory"
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_above="@+id/ad"  
+            android:background="@drawable/bg_grey2"
+            android:textColor="@drawable/bg_yellow"
+            android:padding="1dp"
+            />
+        
 </RelativeLayout>

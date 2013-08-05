@@ -17,7 +17,6 @@ import com.rickystyle.shareapp.free.R;
 import com.rickystyle.shareapp.free.consts.ShareAppConsts;
 import com.rickystyle.shareapp.free.net.NetManager;
 import com.rickystyle.shareapp.free.tool.BarcodeManager;
-import com.rickystyle.shareapp.free.tool.DebugTool;
 import com.rickystyle.shareapp.free.tool.IntentTool;
 import com.rickystyle.shareapp.free.tool.ShareAppTool;
 import com.rickystyle.shareapp.free.widget.ShareAppDialog;
@@ -68,7 +67,6 @@ public class ShareRankAppActivity extends BaseRankActivity {
                 HashMap<String, Object> info = (HashMap<String, Object>) appData.get(currentPosition);
                 String packageName = info.get(ShareAppConsts.KEY_RANK_PACKAGENAME) + "";
                 String labelName = info.get(ShareAppConsts.KEY_RANK_APPNAME) + "";
-                DebugTool.printVLog("OPTION_SHAREAPP:" + which);
                 switch (which) {
                 case ShareAppConsts.OPTION_BOOKMARK_SHAREAPP:
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHARERANK, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_SHAREAPP,
