@@ -96,16 +96,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return dataToAppInfoBean(appCursor);
     }
 
-    public boolean updateApp(String packageName, long time) {
+    public boolean updateApp(AppInfoBean appInfo) {
         // AppInfoBean app = queryApp(packageName);
 
         // String table, ContentValues values, String whereClause, String[] whereArgs
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TableApp.LAST_LAUNCHTIME, packageName);
+        String launchTime = sdf.format(appInfo.getLastLaunchtime());
+        values.put(TableApp.APPNAME, appInfo.getAppName());
+        values.put(TableApp.PACKAGENAME, appInfo.getPackageName());
+        values.put(TableApp.LAST_LAUNCHTIME, launchTime);
 
-        // db.update(TableApp.TABLE_NAME, null, packageName, null);
+        String where = "packageName=\"" + appInfo.getPackageName() + "\"";
+        int rowIndex = db.update(TableApp.TABLE_NAME, values, where, null);
+        LogUtils.d(this, "update %1$s, row:%2$s", appInfo.getPackageName(), rowIndex);
         return false;
     }
 

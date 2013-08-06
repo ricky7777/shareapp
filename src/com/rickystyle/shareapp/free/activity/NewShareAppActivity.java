@@ -4,17 +4,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RecentTaskInfo;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -37,10 +40,9 @@ import com.rickystyle.shareapp.free.R;
 import com.rickystyle.shareapp.free.bean.AppInfoBean;
 import com.rickystyle.shareapp.free.consts.ShareAppConsts;
 import com.rickystyle.shareapp.free.db.DBHelper;
-import com.rickystyle.shareapp.free.db.table.TableApp;
 import com.rickystyle.shareapp.free.service.ShareAppService;
 import com.rickystyle.shareapp.free.tool.BarcodeManager;
-import com.rickystyle.shareapp.free.tool.FileUtils;
+import com.rickystyle.shareapp.free.tool.FileComparator;
 import com.rickystyle.shareapp.free.tool.IntentTool;
 import com.rickystyle.shareapp.free.tool.LogUtils;
 import com.rickystyle.shareapp.free.tool.ShareAppTool;
@@ -73,6 +75,9 @@ public class NewShareAppActivity extends BaseActivity {
 
     private ArrayList<AppInfoBean> appInfos;
 
+    // 優先的app list
+    private ArrayList<String>      priorityApplist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,7 @@ public class NewShareAppActivity extends BaseActivity {
         mPm = getPackageManager();
         mInflater = LayoutInflater.from(this);
         appInfos = new ArrayList<AppInfoBean>();
+        priorityApplist = new ArrayList<String>();
 
         LoadingProcess.dialogShow(this);
 
@@ -92,7 +98,6 @@ public class NewShareAppActivity extends BaseActivity {
         showApps();
 
         LoadingProcess.dialogDismiss();
-
     }
 
     @Override
@@ -129,9 +134,9 @@ public class NewShareAppActivity extends BaseActivity {
     private void loadApps() {
         dbHelper = new DBHelper(this);
 
-        SQLiteDatabase writeDB = dbHelper.getWritableDatabase();
-        writeDB.execSQL(TableApp.DROP_SQL);
-        writeDB.execSQL(TableApp.CREATE_SQL);
+        // SQLiteDatabase writeDB = dbHelper.getWritableDatabase();
+        // writeDB.execSQL(TableApp.DROP_SQL);
+        // writeDB.execSQL(TableApp.CREATE_SQL);
         int appCount = dbHelper.queryAppCount();
 
         if (appCount == 0) {
@@ -143,15 +148,16 @@ public class NewShareAppActivity extends BaseActivity {
             recordAppToDB();
             LogUtils.d(this, "record app to db time:%1$s", (System.currentTimeMillis() - start));
         } else {
+            // 更新一下app launchtime
+
             long start = System.currentTimeMillis();
             loadAppFromDB();
             LogUtils.d(this, "load app from db time:%1$s", (System.currentTimeMillis() - start));
         }
 
-        LogUtils.d(this, "appppp count:%1$s", dbHelper.queryAppCount());
         // copy file for debug
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        FileUtils.copyFile(db.getPath(), "/sdcard/shareapp.db");
+        // SQLiteDatabase db = dbHelper.getReadableDatabase();
+        // FileUtils.copyFile(db.getPath(), "/sdcard/shareapp.db");
     }
 
     /**
@@ -161,37 +167,46 @@ public class NewShareAppActivity extends BaseActivity {
      */
     private void loadAppDataFromDevice() {
         // make shareapp data
-        // pnComparator = new FileComparator();
+        FileComparator pnComparator = new FileComparator();
 
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         List<ApplicationInfo> appList = mPm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
         // mApps = new ArrayList<ApplicationInfo>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
         // filter
         try {
+            refreshTaskApp();
+
             for (ApplicationInfo appInfo : appList) {
                 boolean flag = false;
                 if ((appInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
                     // Updated system app
                     flag = false;
-                    LogUtils.d(this, "flag update system app:%1$s", appInfo.loadLabel(mPm).toString());
                 }
 
                 if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
                     // Non-system app
                     flag = true;
-                    LogUtils.d(this, "flag FLAG_SYSTEM app:%1$s", appInfo.loadLabel(mPm).toString());
                 }
 
                 if (flag) {
                     String appName = appInfo.loadLabel(mPm).toString();
                     String packageName = appInfo.packageName;
+
+                    if (packageName.equals(getPackageName())) {
+                        continue;
+                    }
+
                     String lastLaunchTime = String.valueOf(getLastLaunchTime(packageName));
                     Date currentTime = new Date();
-                    currentTime.setTime(Long.valueOf(lastLaunchTime));
+                    if (!priorityApplist.contains(packageName)) {
+                        currentTime.setTime(Long.valueOf(lastLaunchTime));
+                    } else {
+                        LogUtils.d(this, "%1$s 在task內:%2$s", appName, currentTime);
+                    }
                     // String launchTimeStr = sdf.format(currentTime);
 
                     Drawable icon = appInfo.loadIcon(mPm);
@@ -211,12 +226,72 @@ public class NewShareAppActivity extends BaseActivity {
         }
 
         // sort
-        // Collections.sort(mApps, pnComparator);
+        Collections.sort(appInfos, pnComparator);
     }
 
+    /**
+     * 從db載入app
+     */
     private void loadAppFromDB() {
+        long start = System.currentTimeMillis();
         appInfos = dbHelper.queryAllApp();
 
+        start = System.currentTimeMillis();
+        refreshTaskApp();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+
+        // 更新db內所有app的時間
+        start = System.currentTimeMillis();
+        for (AppInfoBean app : appInfos) {
+            String packageName = app.getPackageName();
+            if (priorityApplist.contains(packageName)) {
+                // 將task app 啟動時間更新為now
+                app.setLastLaunchTime(new Date());
+                dbHelper.updateApp(app);
+            } else {
+                // long start2 = System.currentTimeMillis();
+                // long lastLaunchTime = getLastLaunchTime(packageName);
+                // LogUtils.d(this, "getLastTime:%1$s", (System.currentTimeMillis() - start2));
+                //
+                // Date date = new Date();
+                // date.setTime(lastLaunchTime);
+                // String newDateStr = sdf.format(date);
+                // try {
+                // date = sdf.parse(newDateStr);
+                // } catch (ParseException e) {
+                // LogUtils.d(this, "load app from db error:%1$s", e.getMessage());
+                // }
+                //
+                // if (!app.getLastLaunchtime().equals(date)) {
+                // app.setLastLaunchTime(date);
+                // dbHelper.updateApp(app);
+                // }
+            }
+        }
+        LogUtils.d(this, "update app time:%1$s", (System.currentTimeMillis() - start));
+
+        FileComparator pnComparator = new FileComparator();
+        Collections.sort(appInfos, pnComparator);
+    }
+
+    /**
+     * 更新task的app
+     */
+    private void refreshTaskApp() {
+        priorityApplist.clear();
+        ActivityManager activityMrg = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<RecentTaskInfo> taskList = activityMrg.getRecentTasks(20, 0);
+        for (RecentTaskInfo rti : taskList) {
+            ResolveInfo ri = mPm.resolveActivity(rti.baseIntent, 0);
+            if (ri != null) {
+                String packageName = ri.activityInfo.packageName;
+                // 過濾掉自己
+                if (!packageName.equals(getPackageName())) {
+                    priorityApplist.add(packageName);
+                }
+            }
+        }
     }
 
     /**
@@ -244,6 +319,7 @@ public class NewShareAppActivity extends BaseActivity {
         } catch (Exception ex) {
             LogUtils.d(this, "getLaunchTime error:%1$s", ex);
         }
+
         return 0;
     }
 
