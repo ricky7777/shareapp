@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">分享快樂</string>
-    <string name="app_share_title">分享快樂</string>
+    <string name="app_name">分享APP</string>
+    <string name="app_share_title">分享APP</string>
     <string name="bookmark_add_success">加入書籤成功!</string>
     <string name="bookmark_remove_success">已移除此書籤</string>
     <string name="bookmark_delete_title">刪除書籤</string>
@@ -32,4 +32,6 @@
     <string name="rating_no">不了</string>
     
     <string name="im_text">可用空間:</string>
+    
+    <string name="loading_init">初始化</string>
 </resources>

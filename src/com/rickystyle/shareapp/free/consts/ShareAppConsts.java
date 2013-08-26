@@ -31,7 +31,7 @@ public class ShareAppConsts {
     public final static int    OPTION_SHAREAPP                   = 0;
     public final static int    OPTION_SHOWQRCODE                 = 1;
     public final static int    OPTION_SEARCHMARKET               = 2;
-    public final static int    OPTION_ADDTOBOOKMARK              = 3;
+    // public final static int OPTION_ADDTOBOOKMARK = 3;
     public final static int    OPTION_LAUNCHAPP                  = 4;
     public final static int    OPTION_UNINSTALLAPP               = 5;
 

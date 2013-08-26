@@ -33,7 +33,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rickystyle.shareapp.free.R;
 import com.rickystyle.shareapp.free.consts.ShareAppConsts;
@@ -207,12 +206,12 @@ public class ShareAppActivity extends BaseActivity {
                     String url = BarcodeManager.getInstance().getBarcodeURLInMarket(packageName);
                     IntentTool.launchWeb(ShareAppActivity.this, url);
                     break;
-                case ShareAppConsts.OPTION_ADDTOBOOKMARK:
-                    trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_ADDBOOKMARK,
-                            ShareAppConsts.ANALYTICS_VALUE_YES);
-                    // BarcodeManager.getInstance().addAppBookmark(info, ShareAppActivity.this, mPm);
-                    Toast.makeText(getApplicationContext(), R.string.bookmark_add_success, Toast.LENGTH_SHORT).show();
-                    break;
+                // case ShareAppConsts.OPTION_ADDTOBOOKMARK:
+                // trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_ADDBOOKMARK,
+                // ShareAppConsts.ANALYTICS_VALUE_YES);
+                // // BarcodeManager.getInstance().addAppBookmark(info, ShareAppActivity.this, mPm);
+                // Toast.makeText(getApplicationContext(), R.string.bookmark_add_success, Toast.LENGTH_SHORT).show();
+                // break;
                 case ShareAppConsts.OPTION_LAUNCHAPP:
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_LAUNCHAPP,
                             ShareAppConsts.ANALYTICS_VALUE_YES);

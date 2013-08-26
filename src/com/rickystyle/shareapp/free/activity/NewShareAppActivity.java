@@ -17,12 +17,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -34,7 +36,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rickystyle.shareapp.free.R;
 import com.rickystyle.shareapp.free.bean.AppInfoBean;
@@ -47,7 +48,7 @@ import com.rickystyle.shareapp.free.tool.IntentTool;
 import com.rickystyle.shareapp.free.tool.LogUtils;
 import com.rickystyle.shareapp.free.tool.ShareAppTool;
 import com.rickystyle.shareapp.free.tool.StringUtils;
-import com.rickystyle.shareapp.free.widget.LoadingProcess;
+import com.rickystyle.shareapp.free.widget.LoadingBar;
 import com.rickystyle.shareapp.free.widget.ShareAppDialog;
 
 /**
@@ -78,6 +79,10 @@ public class NewShareAppActivity extends BaseActivity {
     // 優先的app list
     private ArrayList<String>      priorityApplist;
 
+    private String                 uninstallPackageName;
+
+    // private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,23 +92,52 @@ public class NewShareAppActivity extends BaseActivity {
         appInfos = new ArrayList<AppInfoBean>();
         priorityApplist = new ArrayList<String>();
 
-        LoadingProcess.dialogShow(this);
-
         setContentView(R.layout.shareapp);
+
+        LoadingBar.init(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         setMemoryInfo();
 
+        long start = System.currentTimeMillis();
+        showApps();
+        LogUtils.d(this, "show app time:%1$s", (System.currentTimeMillis() - start));
+
         loadApps();
 
-        showApps();
-
-        LoadingProcess.dialogDismiss();
+        LoadingBar.instance.dismissDialog();
+        // progressDialog.dismiss();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         updateInternalMemory();
+
+        // 查一下uninstall packageName還有沒有在
+        if (uninstallPackageName != null && uninstallPackageName.length() != 0) {
+            try {
+                mPm.getApplicationInfo(uninstallPackageName, 0);
+                // 還有找到app,表示還沒移除,沒事
+
+            } catch (NameNotFoundException e) {
+                // 找不到該app了,表示已經移除了
+                LogUtils.d(this, "not found uninstall packageName:%1$s", uninstallPackageName);
+                for (AppInfoBean appInfo : appInfos) {
+                    String packageName = appInfo.getPackageName();
+                    if (packageName.equals(uninstallPackageName)) {
+                        appInfos.remove(appInfo);
+                        appsAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+            }
+        }
         // loadApps();
         // appsAdapter.notifyDataSetChanged();
     }
@@ -140,13 +174,9 @@ public class NewShareAppActivity extends BaseActivity {
         int appCount = dbHelper.queryAppCount();
 
         if (appCount == 0) {
-            long start = System.currentTimeMillis();
             loadAppDataFromDevice();
-            LogUtils.d(this, "load app from device time:%1$s", (System.currentTimeMillis() - start));
 
-            start = System.currentTimeMillis();
             recordAppToDB();
-            LogUtils.d(this, "record app to db time:%1$s", (System.currentTimeMillis() - start));
         } else {
             // 更新一下app launchtime
 
@@ -166,6 +196,18 @@ public class NewShareAppActivity extends BaseActivity {
      * @throws Exception
      */
     private void loadAppDataFromDevice() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                LoadingBar.instance.dialogShow();
+                Looper.loop();
+            }
+        });
+        t.start();
+
+        long start = System.currentTimeMillis();
+
         // make shareapp data
         FileComparator pnComparator = new FileComparator();
 
@@ -173,14 +215,22 @@ public class NewShareAppActivity extends BaseActivity {
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
 
         List<ApplicationInfo> appList = mPm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+
         // mApps = new ArrayList<ApplicationInfo>();
         // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
         // filter
         try {
+            int totalAppSize = appList.size();
+            float current = 0;
+
             refreshTaskApp();
 
             for (ApplicationInfo appInfo : appList) {
+                // set progress
+                current++;
+                float percentFlat = current / totalAppSize * 100;
+
                 boolean flag = false;
                 if ((appInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
                     // Updated system app
@@ -217,7 +267,9 @@ public class NewShareAppActivity extends BaseActivity {
 
                     AppInfoBean app = new AppInfoBean(appName, packageName, currentTime, bitmapdata);
                     appInfos.add(app);
+                    appsAdapter.notifyDataSetChanged();
 
+                    LoadingBar.instance.setDialogPercent((int) percentFlat);
                     // mApps.add(appInfo);
                 }
             }
@@ -227,6 +279,9 @@ public class NewShareAppActivity extends BaseActivity {
 
         // sort
         Collections.sort(appInfos, pnComparator);
+        appsAdapter.notifyDataSetChanged();
+        LogUtils.d(this, "load app from device time:%1$s", (System.currentTimeMillis() - start));
+
     }
 
     /**
@@ -327,9 +382,19 @@ public class NewShareAppActivity extends BaseActivity {
      * 將app資訊記錄到db
      */
     private void recordAppToDB() {
-        for (AppInfoBean app : appInfos) {
-            dbHelper.insertApp(app);
-        }
+        // 跑背景處理
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                long start = System.currentTimeMillis();
+                for (AppInfoBean app : appInfos) {
+                    dbHelper.insertApp(app);
+                }
+                LogUtils.d(this, "record app to db time:%1$s", (System.currentTimeMillis() - start));
+            }
+        });
+        t.start();
     }
 
     /**
@@ -395,18 +460,19 @@ public class NewShareAppActivity extends BaseActivity {
                     String url = BarcodeManager.getInstance().getBarcodeURLInMarket(packageName);
                     IntentTool.launchWeb(NewShareAppActivity.this, url);
                     break;
-                case ShareAppConsts.OPTION_ADDTOBOOKMARK:
-                    trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_ADDBOOKMARK,
-                            ShareAppConsts.ANALYTICS_VALUE_YES);
-                    BarcodeManager.getInstance().addAppBookmark(info, NewShareAppActivity.this, mPm);
-                    Toast.makeText(getApplicationContext(), R.string.bookmark_add_success, Toast.LENGTH_SHORT).show();
-                    break;
+                // case ShareAppConsts.OPTION_ADDTOBOOKMARK:
+                // trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_ADDBOOKMARK,
+                // ShareAppConsts.ANALYTICS_VALUE_YES);
+                // BarcodeManager.getInstance().addAppBookmark(info, NewShareAppActivity.this, mPm);
+                // Toast.makeText(getApplicationContext(), R.string.bookmark_add_success, Toast.LENGTH_SHORT).show();
+                // break;
                 case ShareAppConsts.OPTION_LAUNCHAPP:
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_LAUNCHAPP,
                             ShareAppConsts.ANALYTICS_VALUE_YES);
                     IntentTool.launchAnotherApp(NewShareAppActivity.this, packageName, mPm);
                     break;
                 case ShareAppConsts.OPTION_UNINSTALLAPP:
+                    uninstallPackageName = packageName;
                     trackEvent(ShareAppConsts.ANALYTICS_CATEGORY_SHAREAPP, ShareAppConsts.ANALYTICS_ACTION_CLICK, ShareAppConsts.ANALYTICS_LABEL_REMOVEAPP,
                             ShareAppConsts.ANALYTICS_VALUE_YES);
                     IntentTool.deleteAnotherApp(NewShareAppActivity.this, packageName);

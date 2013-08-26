@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">シェアアプリ</string>
+    <string name="app_name">シェアアプリ(QRコード)</string>
     <string name="app_share_title">シェアアプリ</string>
     <string name="bookmark_add_success">ブックマークしました!</string>
     <string name="bookmark_remove_success">ブックマークを削除しました</string>

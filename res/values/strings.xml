@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ShareAPP</string>
+    <string name="app_name">Share App(QR Code)</string>
     <string name="app_share_title">ShareApp</string>
     <string name="ad_id">a14d7b9e6f2c65b</string>
     <string name="bookmark_add_success">Add bookmark success!</string>
@@ -41,4 +41,7 @@
     
     <!-- internal memory's text -->
     <string name="im_text">Available Memory:</string>
+    
+     <string name="loading_prompt">Loading...</string>
+     <string name="loading_init">initialize</string>
 </resources>
