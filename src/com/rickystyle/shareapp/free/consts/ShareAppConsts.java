@@ -32,8 +32,8 @@ public class ShareAppConsts {
     public final static int    OPTION_SHOWQRCODE                 = 1;
     public final static int    OPTION_SEARCHMARKET               = 2;
     // public final static int OPTION_ADDTOBOOKMARK = 3;
-    public final static int    OPTION_LAUNCHAPP                  = 4;
-    public final static int    OPTION_UNINSTALLAPP               = 5;
+    public final static int    OPTION_LAUNCHAPP                  = 3;
+    public final static int    OPTION_UNINSTALLAPP               = 4;
 
     // shareapp for bookmark 選項
     public final static int    OPTION_BOOKMARK_SHAREAPP          = 0;
@@ -115,7 +115,7 @@ public class ShareAppConsts {
 
     // share app option選項對應的圖,有新增選項要在此和array新增
     public final static int[]  SHAREAPP_OPTION_ICONS             = { R.drawable.icon_shareapp, R.drawable.icon_qrcode, R.drawable.icon_market,
-            R.drawable.icon_addbookmark, R.drawable.icon_launchapp, R.drawable.icon_uninstallapp };
+            R.drawable.icon_launchapp, R.drawable.icon_uninstallapp };
 
     // share app icon的底圖,有新增底圖要在此新增
     public final static int[]  SHAREAPP_ICONS_BG                 = { R.drawable.icon_bg1, R.drawable.icon_bg2, R.drawable.icon_bg3, R.drawable.icon_bg4,
@@ -146,7 +146,6 @@ public class ShareAppConsts {
     public final static String ANALYTICS_LABEL_SHAREAPP          = "Shareapp";
     public final static String ANALYTICS_LABEL_DISPLAYQRCODE     = "DisplayQR";
     public final static String ANALYTICS_LABEL_SEARCHMARKET      = "SearchMarket";
-    public final static String ANALYTICS_LABEL_ADDBOOKMARK       = "AddBookmark";
     public final static String ANALYTICS_LABEL_LAUNCHAPP         = "LaunchApp";
     public final static String ANALYTICS_LABEL_REMOVEAPP         = "RemoveApp";
 

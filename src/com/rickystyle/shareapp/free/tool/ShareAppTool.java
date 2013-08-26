@@ -62,6 +62,7 @@ public class ShareAppTool {
         View textEntryView = factory.inflate(R.layout.showqritem, null);
         ImageView appQRView = (ImageView) textEntryView.findViewById(R.id.IV_qr_img);
         Drawable qrImg = BarcodeManager.getInstance().getBarcodeDrawable(packageName);
+        LogUtils.d("log", "qr image is not null:%1$s", qrImg);
         appQRView.setBackgroundDrawable(qrImg);
         shareAlert.setTitle(labelName);
         shareAlert.setContentView(textEntryView);

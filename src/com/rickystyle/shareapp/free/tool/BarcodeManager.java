@@ -105,7 +105,7 @@ public class BarcodeManager {
             bm = BitmapFactory.decodeStream(bis);
             bis.close();
         } catch (Exception ex) {
-            LogUtils.d("get barcode Img fail:%1$s", text);
+            LogUtils.d(this, "get barcode Img fail:%1$s", ex.getMessage());
         }
         return bm;
     }
