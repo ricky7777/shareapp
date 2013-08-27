@@ -200,7 +200,7 @@ public class NewShareAppActivity extends BaseActivity {
             @Override
             public void run() {
                 Looper.prepare();
-                LoadingBar.instance.dialogShow();
+                LoadingBar.instance.dialogShowProgress();
                 Looper.loop();
             }
         });

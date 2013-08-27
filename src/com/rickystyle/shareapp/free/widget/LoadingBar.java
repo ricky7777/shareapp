@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.view.KeyEvent;
 
 import com.rickystyle.shareapp.free.R;
-import com.rickystyle.shareapp.free.tool.LogUtils;
 
 /**
  * 載入的loading bar
@@ -58,14 +57,43 @@ public class LoadingBar extends ProgressDialog {
     public void dialogShow() {
         Context context = getContext();
 
-        LogUtils.d(this, "dialogShow:%1$s,isFinish:%2$s", progressDialog == null, act.isFinishing());
         if (progressDialog == null) {
             if (!act.isFinishing()) {
                 // progressDialog = show(context, null, loadingText);
                 progressDialog = new ProgressDialog(act);
             }
         } else {
-            LogUtils.d(this, "progressDialog.isShowing():%1$s", progressDialog.isShowing());
+            if (!progressDialog.isShowing()) {
+                // show完了,再new一個給他
+                if (!act.isFinishing()) {
+                    progressDialog = new ProgressDialog(act);
+                    // progressDialog = show(context, null, loadingText);
+                }
+            }
+        }
+
+        // progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        String loadingText = context.getString(R.string.loading_prompt);
+        progressDialog.setMessage(loadingText);
+        // progressDialog.setMax(100);
+        // progressDialog.show(context, null, loadingText);
+
+        if (!act.isFinishing()) {
+            progressDialog.show();
+        }
+        progressDialog.setOnKeyListener(new MyKeyListener());
+
+    }
+
+    public void dialogShowProgress() {
+        Context context = getContext();
+
+        if (progressDialog == null) {
+            if (!act.isFinishing()) {
+                // progressDialog = show(context, null, loadingText);
+                progressDialog = new ProgressDialog(act);
+            }
+        } else {
             if (!progressDialog.isShowing()) {
                 // show完了,再new一個給他
                 if (!act.isFinishing()) {
@@ -86,11 +114,9 @@ public class LoadingBar extends ProgressDialog {
             progressDialog.show();
         }
         progressDialog.setOnKeyListener(new MyKeyListener());
-
     }
 
     public void dismissDialog() {
-        LogUtils.d(this, "progressDialog dismiss:%1$s", progressDialog != null);
         if (progressDialog != null) {
             progressDialog.dismiss();
         }

@@ -84,8 +84,9 @@ public class BarcodeManager {
             FileOutputStream fOut = new FileOutputStream(barcodeFile);
             boolean isSuccess = bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
             fOut.flush();
-            if (fOut != null)
+            if (fOut != null) {
                 fOut.close();
+            }
 
         } catch (Exception e) {
             LogUtils.d("get url fail:%1$s", packageName);
@@ -106,6 +107,7 @@ public class BarcodeManager {
             bis.close();
         } catch (Exception ex) {
             LogUtils.d(this, "get barcode Img fail:%1$s", ex.getMessage());
+            ex.printStackTrace();
         }
         return bm;
     }
